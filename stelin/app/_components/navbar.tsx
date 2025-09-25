@@ -2,15 +2,14 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { FaCamera, FaHome } from "react-icons/fa";
-import { FaMessage } from "react-icons/fa6";
-import { IoFastFoodSharp } from "react-icons/io5";
+import { FaHome, FaStethoscope, FaBookMedical } from "react-icons/fa";
+import { MdHealthAndSafety } from "react-icons/md";
 
 const navItems = [
   { href: "/", label: "Home", icon: FaHome },
-  { href: "/chat", label: "Chat", icon: FaMessage },
-  { href: "/lifestyle", label: "Lifestyle Predictor", icon: IoFastFoodSharp },
-  { href: "/scan", label: "Food Scanner", icon: FaCamera },
+  { href: "/screening", label: "AI Screening", icon: FaStethoscope },
+  { href: "/diary", label: "Health Diary", icon: MdHealthAndSafety },
+  { href: "/education", label: "Education", icon: FaBookMedical },
 ];
 
 const Navbar = () => {
