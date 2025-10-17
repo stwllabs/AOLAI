@@ -7,7 +7,7 @@ import { MdHealthAndSafety } from "react-icons/md";
 
 const navItems = [
   { href: "/", label: "Home", icon: FaHome },
-  { href: "/screening", label: "AI Screening", icon: FaStethoscope },
+  { href: "/chat", label: "AI Screening", icon: FaStethoscope },
   { href: "/diary", label: "Health Diary", icon: MdHealthAndSafety },
   { href: "/education", label: "Education", icon: FaBookMedical },
 ];
