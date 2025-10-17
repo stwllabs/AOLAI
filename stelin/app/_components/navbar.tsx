@@ -6,10 +6,10 @@ import { FaHome, FaStethoscope, FaBookMedical } from "react-icons/fa";
 import { MdHealthAndSafety } from "react-icons/md";
 
 const navItems = [
-  { href: "/", label: "Home", icon: FaHome },
+  { href: "/home", label: "Home", icon: FaHome },
   { href: "/chat", label: "AI Screening", icon: FaStethoscope },
-  { href: "/diary", label: "Health Diary", icon: MdHealthAndSafety },
-  { href: "/education", label: "Education", icon: FaBookMedical },
+  { href: "/lifestyle", label: "Health Guidance", icon: MdHealthAndSafety },
+  { href: "/scan", label: "Xray Analysis", icon: FaBookMedical },
 ];
 
 const Navbar = () => {

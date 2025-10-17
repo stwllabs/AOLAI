@@ -158,7 +158,7 @@ export default function Chat() {
         }, 2000);
     };
 
-    // --- RENDER FUNCTIONS: Step Indicator (PERBAIKAN & DESAIN BARU) ---
+    // --- RENDER FUNCTIONS: Step Indicator (KONSISTEN) ---
     const renderStepIndicator = () => {
         const steps = [
             { id: 1, label: 'Basic Data', icon: FaUser },
@@ -190,7 +190,7 @@ export default function Chat() {
                         </div>
                         {/* Label */}
                         <p className={`mt-2 text-xs font-semibold text-center transition-colors duration-300 ${
-                            currentStep >= step.id ? 'text-blue-800' : 'text-gray-500' // UPDATED: text-blue-800
+                            currentStep >= step.id ? 'text-blue-800' : 'text-gray-500' 
                         }`}>{step.label}</p>
                     </div>
                 ))}
@@ -198,15 +198,15 @@ export default function Chat() {
         );
     };
 
-    // --- RENDER FUNCTIONS: Step 1 (Tambahan Desain) ---
+    // --- RENDER FUNCTIONS: Step 1 (Input Font Diubah) ---
     const renderStepOne = () => (
-        <div className="bg-white p-8 rounded-xl shadow-xl border border-gray-100 animate-fade-in">
-            <h2 className="text-2xl font-extrabold mb-6 text-blue-800 border-b pb-3">Step 1: Basic Information</h2> {/* UPDATED: text-blue-800 */}
+        <div className="bg-white p-8 rounded-xl shadow-xl border-2 border-gray-100 animate-fade-in"> 
+            <h2 className="text-2xl font-extrabold mb-6 text-blue-800 border-b pb-3">Step 1: Basic Information</h2>
 
             <div className="space-y-5">
                 {/* Age Input */}
                 <div>
-                    <label htmlFor="age" className="block text-sm font-semibold text-gray-800 mb-2">Age (Years):</label> {/* UPDATED: text-gray-800 */}
+                    <label htmlFor="age" className="block text-sm font-semibold text-gray-900 mb-2">Age (Years):</label>
                     <input
                         type="number"
                         id="age"
@@ -215,26 +215,28 @@ export default function Chat() {
                         onChange={handleInputChange}
                         min="1"
                         placeholder="e.g., 35"
-                        className="w-full p-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 transition duration-200"
+                        // Ditambah: text-gray-900
+                        className="w-full p-3 border border-gray-300 rounded-lg text-gray-900 focus:ring-blue-500 focus:border-blue-500 transition duration-200"
                     />
                 </div>
 
                 {/* Gender Select */}
                 <div>
-                    <label htmlFor="gender" className="block text-sm font-semibold text-gray-800 mb-2">Gender:</label> {/* UPDATED: text-gray-800 */}
+                    <label htmlFor="gender" className="block text-sm font-semibold text-gray-900 mb-2">Gender:</label>
                     <div className="relative">
                         <select
                             id="gender"
                             name="gender"
                             value={formData.gender}
                             onChange={handleInputChange}
-                            className="w-full p-3 border border-gray-300 rounded-lg appearance-none bg-white focus:ring-blue-500 focus:border-blue-500 transition duration-200 pr-10"
+                            // Ditambah: text-gray-900
+                            className="w-full p-3 border border-gray-300 rounded-lg appearance-none bg-white text-gray-900 focus:ring-blue-500 focus:border-blue-500 transition duration-200 pr-10"
                         >
                             <option value="">Select Gender</option>
                             <option value="male">Male</option>
                             <option value="female">Female</option>
                         </select>
-                        <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-800"> {/* UPDATED: text-gray-800 */}
+                        <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-800">
                             <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
                         </div>
                     </div>
@@ -250,11 +252,11 @@ export default function Chat() {
         </div>
     );
 
-    // --- RENDER FUNCTIONS: Step 2 (Tambahan Desain) ---
+    // --- RENDER FUNCTIONS: Step 2 (KONSISTEN) ---
     const renderStepTwo = () => (
-        <div className="bg-white p-8 rounded-xl shadow-xl border border-gray-100 animate-fade-in">
-            <h2 className="text-2xl font-extrabold mb-6 text-blue-800 border-b pb-3">Step 2: Core Symptoms</h2> {/* UPDATED: text-blue-800 */}
-            <p className="text-sm text-gray-700 mb-8">Please select all core symptoms you have experienced recently.</p> {/* UPDATED: text-gray-700 */}
+        <div className="bg-white p-8 rounded-xl shadow-xl border-2 border-gray-100 animate-fade-in">
+            <h2 className="text-2xl font-extrabold mb-6 text-blue-800 border-b pb-3">Step 2: Core Symptoms</h2>
+            <p className="text-sm text-gray-700 mb-8">Please select all core symptoms you have experienced recently.</p>
 
             <div className="space-y-4">
                 {SYMPTOMS_DATA.map((symptom) => (
@@ -266,9 +268,9 @@ export default function Chat() {
                         onClick={() => handleSymptomChange(symptom.id as keyof SymptomState)}
                     >
                         <FaCheckCircle className={`text-xl mr-4 ${
-                            (symptoms as any)[symptom.id] ? 'text-blue-600' : 'text-gray-500' // UPDATED: text-gray-500
+                            (symptoms as any)[symptom.id] ? 'text-blue-600' : 'text-gray-500' 
                         }`} />
-                        <label className="text-base font-medium text-gray-900 select-none"> {/* UPDATED: text-gray-900 */}
+                        <label className="text-base font-medium text-gray-900 select-none">
                             {symptom.label}
                         </label>
                     </div>
@@ -278,7 +280,7 @@ export default function Chat() {
             <div className="flex justify-between mt-10 space-x-4">
                 <button
                     onClick={goToPrevStep}
-                    className="w-1/2 py-3 font-bold text-gray-800 bg-gray-200 rounded-lg shadow-md hover:bg-gray-300 transform hover:scale-105 transition duration-300" // UPDATED: text-gray-800
+                    className="w-1/2 py-3 font-bold text-gray-800 bg-gray-200 rounded-lg shadow-md hover:bg-gray-300 transform hover:scale-105 transition duration-300"
                 >
                     &larr; Previous
                 </button>
@@ -292,17 +294,18 @@ export default function Chat() {
         </div>
     );
 
-    // --- RENDER FUNCTIONS: Step 3 (Tambahan Desain) ---
+    // --- RENDER FUNCTIONS: Step 3 (Input Font Diubah) ---
     const renderStepThree = () => (
-        <div className="bg-white p-8 rounded-xl shadow-xl border border-gray-100 animate-fade-in">
-            <h2 className="text-2xl font-extrabold mb-6 text-blue-800 border-b pb-3">Step 3: History & Risk Factors</h2> {/* UPDATED: text-blue-800 */}
-            <p className="text-sm text-gray-700 mb-8">Answer these questions for a more accurate risk calculation.</p> {/* UPDATED: text-gray-700 */}
+        <div className="bg-white p-8 rounded-xl shadow-xl border-2 border-gray-100 animate-fade-in"> 
+            <h2 className="text-2xl font-extrabold mb-6 text-blue-800 border-b pb-3">Step 3: History & Risk Factors</h2>
+            <p className="text-sm text-gray-700 mb-8">Answer these questions for a more accurate risk calculation.</p>
 
             <div className="space-y-6">
                 {/* TB Contact History */}
                 <div>
-                    <label className="block text-base font-semibold text-gray-800 mb-2">1. Have you had close contact with a TB patient?</label> {/* UPDATED: text-gray-800 */}
+                    <label className="block text-base font-semibold text-gray-900 mb-2">1. Have you had close contact with a TB patient?</label>
                     <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-6 mt-2">
+                        {/* Radio buttons sudah menggunakan text-gray-900 pada span-nya */}
                         <label className="flex items-center group cursor-pointer">
                             <input
                                 type="radio"
@@ -312,7 +315,7 @@ export default function Chat() {
                                 onChange={() => handleRiskFactorChange('tbContact', 'yes')}
                                 className="w-5 h-5 text-blue-600 focus:ring-blue-500 transition duration-200"
                             />
-                            <span className="ml-2 text-gray-900 group-hover:text-blue-700 font-medium">Yes</span> {/* UPDATED: text-gray-900 */}
+                            <span className="ml-2 text-gray-900 group-hover:text-blue-700 font-medium">Yes</span>
                         </label>
                         <label className="flex items-center group cursor-pointer">
                             <input
@@ -323,26 +326,27 @@ export default function Chat() {
                                 onChange={() => handleRiskFactorChange('tbContact', 'no')}
                                 className="w-5 h-5 text-blue-600 focus:ring-blue-500 transition duration-200"
                             />
-                            <span className="ml-2 text-gray-900 group-hover:text-blue-700 font-medium">No</span> {/* UPDATED: text-gray-900 */}
+                            <span className="ml-2 text-gray-900 group-hover:text-blue-700 font-medium">No</span>
                         </label>
                     </div>
                 </div>
 
                 {/* Immunocompromising Illness History */}
                 <div>
-                    <label className="block text-base font-semibold text-gray-800 mb-2">2. Do you have a history of the following diseases?</label> {/* UPDATED: text-gray-800 */}
+                    <label className="block text-base font-semibold text-gray-900 mb-2">2. Do you have a history of the following diseases?</label>
                     <div className="relative">
                         <select
                             value={riskFactors.healthHistory}
                             onChange={(e) => handleRiskFactorChange('healthHistory', e.target.value as RiskFactorState['healthHistory'])}
-                            className="w-full p-3 border border-gray-300 rounded-lg appearance-none bg-white text-gray-900 focus:ring-blue-500 focus:border-blue-500 transition duration-200 pr-10" // UPDATED: text-gray-900
+                            // Ditambah: text-gray-900
+                            className="w-full p-3 border border-gray-300 rounded-lg appearance-none bg-white text-gray-900 focus:ring-blue-500 focus:border-blue-500 transition duration-200 pr-10"
                         >
                             <option value="none">None</option>
                             <option value="hiv">HIV/AIDS</option>
                             <option value="diabetes">Diabetes Mellitus (Sugar)</option>
                             <option value="other">Other (Immunocompromised)</option>
                         </select>
-                        <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-800"> {/* UPDATED: text-gray-800 */}
+                        <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-800">
                             <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
                         </div>
                     </div>
@@ -350,18 +354,19 @@ export default function Chat() {
 
                 {/* Smoking Status */}
                 <div>
-                    <label className="block text-base font-semibold text-gray-800 mb-2">3. Smoking Status / Smoke Exposure:</label> {/* UPDATED: text-gray-800 */}
+                    <label className="block text-base font-semibold text-gray-900 mb-2">3. Smoking Status / Smoke Exposure:</label>
                     <div className="relative">
                         <select
                             value={riskFactors.smokingStatus}
                             onChange={(e) => handleRiskFactorChange('smokingStatus', e.target.value as RiskFactorState['smokingStatus'])}
-                            className="w-full p-3 border border-gray-300 rounded-lg appearance-none bg-white text-gray-900 focus:ring-blue-500 focus:border-blue-500 transition duration-200 pr-10" // UPDATED: text-gray-900
+                            // Ditambah: text-gray-900
+                            className="w-full p-3 border border-gray-300 rounded-lg appearance-none bg-white text-gray-900 focus:ring-blue-500 focus:border-blue-500 transition duration-200 pr-10"
                         >
                             <option value="no">Non-Smoker / No Exposure</option>
                             <option value="passive">Passive Smoker (Exposed to smoke)</option>
                             <option value="active">Active Smoker</option>
                         </select>
-                        <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-800"> {/* UPDATED: text-gray-800 */}
+                        <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-800">
                             <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
                         </div>
                     </div>
@@ -371,7 +376,7 @@ export default function Chat() {
             <div className="flex justify-between mt-10 space-x-4">
                 <button
                     onClick={goToPrevStep}
-                    className="w-1/2 py-3 font-bold text-gray-800 bg-gray-200 rounded-lg shadow-md hover:bg-gray-300 transform hover:scale-105 transition duration-300" // UPDATED: text-gray-800
+                    className="w-1/2 py-3 font-bold text-gray-800 bg-gray-200 rounded-lg shadow-md hover:bg-gray-300 transform hover:scale-105 transition duration-300"
                 >
                     &larr; Previous
                 </button>
@@ -391,22 +396,22 @@ export default function Chat() {
         </div>
     );
 
-    // --- RENDER FUNCTIONS: Step 4 (Result - Tambahan Desain) ---
+    // --- RENDER FUNCTIONS: Step 4 (Result - KONSISTEN) ---
     const renderStepFour = () => (
         <div className="p-8 rounded-xl shadow-xl border-4 border-blue-700 bg-white animate-fade-in">
-            <h2 className="text-3xl font-extrabold mb-6 text-blue-900 text-center">TB Risk Analysis Result</h2> {/* UPDATED: text-blue-900 */}
-            <p className="text-base text-gray-700 mb-8 text-center">Based on your input, here is your estimated risk:</p> {/* UPDATED: text-gray-700 */}
+            <h2 className="text-3xl font-extrabold mb-6 text-blue-900 text-center">TB Risk Analysis Result</h2>
+            <p className="text-base text-gray-700 mb-8 text-center">Based on your input, here is your estimated risk:</p>
 
             {result && (
                 <div className={`p-6 rounded-xl border-4 ${result.color.replace('bg-', 'border-')} bg-white shadow-inner`}>
-                    <p className="text-lg font-semibold text-center text-gray-700 mb-2">Your Risk Category:</p> {/* UPDATED: text-gray-700 */}
+                    <p className="text-lg font-semibold text-center text-gray-700 mb-2">Your Risk Category:</p>
                     <p className={`text-5xl font-extrabold text-center mt-1 mb-6 ${result.color.replace('bg-', 'text-').replace('500', '700').replace('600', '700')} drop-shadow-md`}>
                         {result.category}
                     </p>
 
                     <div className="border-t border-gray-200 pt-5 mt-5">
-                        <p className="text-base font-semibold text-gray-900 mb-3">Detailed Recommendation:</p> {/* UPDATED: text-gray-900 */}
-                        <p className="text-lg text-gray-800 leading-relaxed"> {/* UPDATED: text-gray-800 */}
+                        <p className="text-base font-semibold text-gray-900 mb-3">Detailed Recommendation:</p>
+                        <p className="text-lg text-gray-800 leading-relaxed">
                             {result.rekomendasi}
                         </p>
                     </div>
@@ -424,7 +429,7 @@ export default function Chat() {
                                 setSymptoms({ prolongedCough: false, fever: false, nightSweats: false, weightLoss: false, shortnessOfBreath: false });
                                 setRiskFactors({ tbContact: 'no', healthHistory: 'none', smokingStatus: 'no' });
                             }}
-                            className="w-full py-3 text-center text-gray-800 font-semibold bg-gray-200 rounded-lg hover:bg-gray-300 transition duration-150 transform hover:scale-105" // UPDATED: text-gray-800
+                            className="w-full py-3 text-center text-gray-800 font-semibold bg-gray-200 rounded-lg hover:bg-gray-300 transition duration-150 transform hover:scale-105"
                         >
                             Start New Screening
                         </button>
@@ -440,14 +445,16 @@ export default function Chat() {
         <div className="min-h-screen bg-gray-50 relative">
             <Navbar />
 
-            {/* CONTENT CONTAINER: pt-20 added for Navbar clearance (Assuming Navbar height is 16 = pt-4) */}
+            {/* CONTENT CONTAINER: pt-20 added for Navbar clearance */}
             <div className="pt-20 p-4">
-                <div className="max-w-xl mx-auto">
+                {/* Lebar Kontainer Konsisten (max-w-3xl) */}
+                <div className="max-w-3xl mx-auto"> 
 
-                    {/* HEADER */}
-                    <div className="p-4 bg-white rounded-t-xl shadow-lg mb-6">
-                        <h1 className="text-2xl font-extrabold text-blue-800">TBEarly Self-Screening AI</h1> {/* UPDATED: text-blue-800 */}
-                        <p className="text-sm text-gray-600">Analyze your risk more accurately in 4 easy steps.</p>
+                    {/* HEADER - KONSISTEN */}
+                    <div className="bg-white p-6 rounded-xl shadow-xl mb-8 border-b-4 border-blue-600">
+                        <FaStethoscope className="text-5xl text-blue-600 mb-3"/> 
+                        <h1 className="text-3xl font-extrabold text-gray-900">TBEarly Self-Screening AI</h1>
+                        <p className="text-gray-600 mt-2">Analyze your risk more accurately in 4 easy steps.</p>
                     </div>
 
                     {renderStepIndicator()}
