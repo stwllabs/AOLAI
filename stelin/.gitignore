@@ -9,7 +9,10 @@
 !.yarn/plugins
 !.yarn/releases
 !.yarn/versions
+<<<<<<< HEAD
+=======
 backend-project/node_modules/
+>>>>>>> dbef7b9387b580ab6e05c4586a5347c01ffbb570
 
 # testing
 /coverage
