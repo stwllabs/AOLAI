@@ -37,8 +37,7 @@ const SYMPTOMS_DATA = [
     { id: 'prolongedCough', label: 'Cough lasting > 2 weeks' },
     { id: 'fever', label: 'Intermittent/prolonged fever' },
     { id: 'nightSweats', label: 'Night sweats (unrelated to activity)' },
-    { id: 'weightLoss', label: 'Drastic weight loss/Poor appetite' },
-    { id: 'shortnessOfBreath', label: 'Shortness of breath / Chest pain' },
+    { id: 'weightLoss', label: 'Drastic weight loss/Poor appetite' }
 ];
 
 export default function Chat() {
@@ -163,7 +162,6 @@ export default function Chat() {
         const steps = [
             { id: 1, label: 'Basic Data', icon: FaUser },
             { id: 2, label: 'Core Symptoms', icon: FaStethoscope },
-            { id: 3, label: 'Risk Factors', icon: FaHistory },
             { id: 4, label: 'Result', icon: FaChartBar },
         ];
 
@@ -171,9 +169,9 @@ export default function Chat() {
             <div className="flex justify-between items-center mb-10 px-4 relative">
                 {/* Background line (gray) */}
                 <div className="absolute top-1/2 left-0 w-full h-1 bg-gray-200 -translate-y-1/2 rounded-full" />
-                
+
                 {/* Progress line (green/blue) */}
-                <div 
+                <div
                     className={`absolute top-1/2 left-0 h-1 bg-gradient-to-r from-blue-400 to-green-500 -translate-y-1/2 rounded-full transition-all duration-500 ease-in-out`}
                     style={{ width: `${((currentStep - 1) / (steps.length - 1)) * 100}%` }}
                 />
@@ -181,17 +179,15 @@ export default function Chat() {
                 {steps.map((step) => (
                     <div key={step.id} className="flex flex-col items-center relative z-10 w-1/4">
                         {/* Icon Container */}
-                        <div className={`w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 transform scale-100 ${
-                            currentStep > step.id ? 'bg-green-500 text-white shadow-md' :
+                        <div className={`w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 transform scale-100 ${currentStep > step.id ? 'bg-green-500 text-white shadow-md' :
                             currentStep === step.id ? 'bg-blue-600 text-white shadow-xl scale-110' :
-                            'bg-white border-2 border-gray-300 text-gray-500 shadow-sm'
-                        }`}>
+                                'bg-white border-2 border-gray-300 text-gray-500 shadow-sm'
+                            }`}>
                             {currentStep > step.id ? <FaCheckCircle className="text-lg" /> : <step.icon className="text-md" />}
                         </div>
                         {/* Label */}
-                        <p className={`mt-2 text-xs font-semibold text-center transition-colors duration-300 ${
-                            currentStep >= step.id ? 'text-blue-800' : 'text-gray-500' 
-                        }`}>{step.label}</p>
+                        <p className={`mt-2 text-xs font-semibold text-center transition-colors duration-300 ${currentStep >= step.id ? 'text-blue-800' : 'text-gray-500'
+                            }`}>{step.label}</p>
                     </div>
                 ))}
             </div>
@@ -200,7 +196,7 @@ export default function Chat() {
 
     // --- RENDER FUNCTIONS: Step 1 (Input Font Diubah) ---
     const renderStepOne = () => (
-        <div className="bg-white p-8 rounded-xl shadow-xl border-2 border-gray-100 animate-fade-in"> 
+        <div className="bg-white p-8 rounded-xl shadow-xl border-2 border-gray-100 animate-fade-in">
             <h2 className="text-2xl font-extrabold mb-6 text-blue-800 border-b pb-3">Step 1: Basic Information</h2>
 
             <div className="space-y-5">
@@ -237,7 +233,7 @@ export default function Chat() {
                             <option value="female">Female</option>
                         </select>
                         <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-800">
-                            <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
+                            <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" /></svg>
                         </div>
                     </div>
                 </div>
@@ -247,7 +243,7 @@ export default function Chat() {
                 onClick={goToNextStep}
                 className="w-full mt-10 py-3 flex items-center justify-center font-bold text-white bg-blue-600 rounded-lg shadow-lg hover:bg-blue-700 transform hover:scale-105 transition duration-300"
             >
-                Next: Core Symptoms <FaChevronRight className="ml-2 w-4 h-4"/>
+                Next: Core Symptoms <FaChevronRight className="ml-2 w-4 h-4" />
             </button>
         </div>
     );
@@ -262,14 +258,12 @@ export default function Chat() {
                 {SYMPTOMS_DATA.map((symptom) => (
                     <div
                         key={symptom.id}
-                        className={`flex items-center p-4 rounded-xl transition duration-200 cursor-pointer border-2 ${
-                            (symptoms as any)[symptom.id] ? 'bg-blue-50 border-blue-500 shadow-md' : 'bg-gray-50 border-gray-200 hover:bg-gray-100'
-                        }`}
+                        className={`flex items-center p-4 rounded-xl transition duration-200 cursor-pointer border-2 ${(symptoms as any)[symptom.id] ? 'bg-blue-50 border-blue-500 shadow-md' : 'bg-gray-50 border-gray-200 hover:bg-gray-100'
+                            }`}
                         onClick={() => handleSymptomChange(symptom.id as keyof SymptomState)}
                     >
-                        <FaCheckCircle className={`text-xl mr-4 ${
-                            (symptoms as any)[symptom.id] ? 'text-blue-600' : 'text-gray-500' 
-                        }`} />
+                        <FaCheckCircle className={`text-xl mr-4 ${(symptoms as any)[symptom.id] ? 'text-blue-600' : 'text-gray-500'
+                            }`} />
                         <label className="text-base font-medium text-gray-900 select-none">
                             {symptom.label}
                         </label>
@@ -288,109 +282,7 @@ export default function Chat() {
                     onClick={goToNextStep}
                     className="w-1/2 py-3 flex items-center justify-center font-bold text-white bg-blue-600 rounded-lg shadow-lg hover:bg-blue-700 transform hover:scale-105 transition duration-300"
                 >
-                    Next: Risk Factors <FaChevronRight className="ml-2 w-4 h-4"/>
-                </button>
-            </div>
-        </div>
-    );
-
-    // --- RENDER FUNCTIONS: Step 3 (Input Font Diubah) ---
-    const renderStepThree = () => (
-        <div className="bg-white p-8 rounded-xl shadow-xl border-2 border-gray-100 animate-fade-in"> 
-            <h2 className="text-2xl font-extrabold mb-6 text-blue-800 border-b pb-3">Step 3: History & Risk Factors</h2>
-            <p className="text-sm text-gray-700 mb-8">Answer these questions for a more accurate risk calculation.</p>
-
-            <div className="space-y-6">
-                {/* TB Contact History */}
-                <div>
-                    <label className="block text-base font-semibold text-gray-900 mb-2">1. Have you had close contact with a TB patient?</label>
-                    <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-6 mt-2">
-                        {/* Radio buttons sudah menggunakan text-gray-900 pada span-nya */}
-                        <label className="flex items-center group cursor-pointer">
-                            <input
-                                type="radio"
-                                name="tbContact"
-                                value="yes"
-                                checked={riskFactors.tbContact === 'yes'}
-                                onChange={() => handleRiskFactorChange('tbContact', 'yes')}
-                                className="w-5 h-5 text-blue-600 focus:ring-blue-500 transition duration-200"
-                            />
-                            <span className="ml-2 text-gray-900 group-hover:text-blue-700 font-medium">Yes</span>
-                        </label>
-                        <label className="flex items-center group cursor-pointer">
-                            <input
-                                type="radio"
-                                name="tbContact"
-                                value="no"
-                                checked={riskFactors.tbContact === 'no'}
-                                onChange={() => handleRiskFactorChange('tbContact', 'no')}
-                                className="w-5 h-5 text-blue-600 focus:ring-blue-500 transition duration-200"
-                            />
-                            <span className="ml-2 text-gray-900 group-hover:text-blue-700 font-medium">No</span>
-                        </label>
-                    </div>
-                </div>
-
-                {/* Immunocompromising Illness History */}
-                <div>
-                    <label className="block text-base font-semibold text-gray-900 mb-2">2. Do you have a history of the following diseases?</label>
-                    <div className="relative">
-                        <select
-                            value={riskFactors.healthHistory}
-                            onChange={(e) => handleRiskFactorChange('healthHistory', e.target.value as RiskFactorState['healthHistory'])}
-                            // Ditambah: text-gray-900
-                            className="w-full p-3 border border-gray-300 rounded-lg appearance-none bg-white text-gray-900 focus:ring-blue-500 focus:border-blue-500 transition duration-200 pr-10"
-                        >
-                            <option value="none">None</option>
-                            <option value="hiv">HIV/AIDS</option>
-                            <option value="diabetes">Diabetes Mellitus (Sugar)</option>
-                            <option value="other">Other (Immunocompromised)</option>
-                        </select>
-                        <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-800">
-                            <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
-                        </div>
-                    </div>
-                </div>
-
-                {/* Smoking Status */}
-                <div>
-                    <label className="block text-base font-semibold text-gray-900 mb-2">3. Smoking Status / Smoke Exposure:</label>
-                    <div className="relative">
-                        <select
-                            value={riskFactors.smokingStatus}
-                            onChange={(e) => handleRiskFactorChange('smokingStatus', e.target.value as RiskFactorState['smokingStatus'])}
-                            // Ditambah: text-gray-900
-                            className="w-full p-3 border border-gray-300 rounded-lg appearance-none bg-white text-gray-900 focus:ring-blue-500 focus:border-blue-500 transition duration-200 pr-10"
-                        >
-                            <option value="no">Non-Smoker / No Exposure</option>
-                            <option value="passive">Passive Smoker (Exposed to smoke)</option>
-                            <option value="active">Active Smoker</option>
-                        </select>
-                        <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-800">
-                            <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div className="flex justify-between mt-10 space-x-4">
-                <button
-                    onClick={goToPrevStep}
-                    className="w-1/2 py-3 font-bold text-gray-800 bg-gray-200 rounded-lg shadow-md hover:bg-gray-300 transform hover:scale-105 transition duration-300"
-                >
-                    &larr; Previous
-                </button>
-                <button
-                    onClick={analyzeSymptoms}
-                    disabled={isLoading}
-                    className={`w-1/2 py-3 font-bold text-white rounded-lg shadow-lg transform hover:scale-105 transition duration-300
-                                ${isLoading ? 'bg-gray-400 cursor-not-allowed' : 'bg-green-600 hover:bg-green-700'}`}
-                >
-                    {isLoading ?
-                        <span className="flex items-center justify-center">
-                            <FaSpinner className="animate-spin mr-2"/> Calculating...
-                        </span>
-                        : 'Calculate Risk Now'}
+                    Calculate Risk Factors <FaChevronRight className="ml-2 w-4 h-4" />
                 </button>
             </div>
         </div>
@@ -448,23 +340,22 @@ export default function Chat() {
             {/* CONTENT CONTAINER: pt-20 added for Navbar clearance */}
             <div className="pt-20 p-4">
                 {/* Lebar Kontainer Konsisten (max-w-3xl) */}
-                <div className="max-w-3xl mx-auto"> 
+                <div className="max-w-3xl mx-auto">
 
                     {/* HEADER - KONSISTEN */}
                     <div className="bg-white p-6 rounded-xl shadow-xl mb-8 border-b-4 border-blue-600">
-                        <FaStethoscope className="text-5xl text-blue-600 mb-3"/> 
+                        <FaStethoscope className="text-5xl text-blue-600 mb-3" />
                         <h1 className="text-3xl font-extrabold text-gray-900">TBEarly Self-Screening AI</h1>
                         <p className="text-gray-600 mt-2">Analyze your risk more accurately in 4 easy steps.</p>
                     </div>
 
                     {renderStepIndicator()}
-                    
+
                     {/* STEP CONTENT */}
                     <div className="relative">
                         {currentStep === 1 && renderStepOne()}
                         {currentStep === 2 && renderStepTwo()}
-                        {currentStep === 3 && renderStepThree()}
-                        {currentStep === 4 && renderStepFour()}
+                        {currentStep === 3 && renderStepFour()}
                     </div>
 
                 </div>

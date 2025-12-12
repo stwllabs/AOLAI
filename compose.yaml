@@ -1,0 +1,32 @@
+services:
+  frontend:
+    build:
+      context: ./stelin
+      dockerfile: dockerfile
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./stelin:/app
+      - /app/node_modules
+      - /app/.next
+    environment:
+      - NODE_ENV=development
+    command: npm run dev
+    container_name: stelin-frontend
+
+  backend:
+    build:
+      context: ./backend-project
+      dockerfile: dockerfile
+    ports:
+      - "3001:3001"
+    environment:
+      - NODE_ENV=development
+    command: npm start
+    container_name: stelin-backend-nest
+  
+  server:
+    build:
+      context: ./backend-AI
+    ports:
+      - 5000:5000

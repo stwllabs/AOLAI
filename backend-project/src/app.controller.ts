@@ -9,4 +9,9 @@ export class AppController {
   getHello(): string {
     return this.appService.getHello();
   }
+
+  @Get()
+  getPrediction(): [number, string] {
+    return this.appService.getPrediction();
+  }
 }

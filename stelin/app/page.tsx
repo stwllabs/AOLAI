@@ -1,10 +1,10 @@
-import Navbar from "./_components/navbar";
+import Home from "./home/page";
 
-export default function Home() {
+export default function Main() {
   return (
     <div className="min-h-screen bg-blue-50">
-      <Navbar/>
       {/* <Link href={"/login"} className="text-amber-950" >MediGuide AI</Link> */}
+      <Home/>
     </div>
   );
 }

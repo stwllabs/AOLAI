@@ -20,6 +20,9 @@ let AppController = class AppController {
     getHello() {
         return this.appService.getHello();
     }
+    getPrediction() {
+        return this.appService.getPrediction();
+    }
 };
 exports.AppController = AppController;
 __decorate([
@@ -28,6 +31,12 @@ __decorate([
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", String)
 ], AppController.prototype, "getHello", null);
+__decorate([
+    (0, common_1.Get)(),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", Array)
+], AppController.prototype, "getPrediction", null);
 exports.AppController = AppController = __decorate([
     (0, common_1.Controller)(),
     __metadata("design:paramtypes", [app_service_1.AppService])
