@@ -77,13 +77,13 @@ export default function XRayAnalyzer() {
             case 'TB Indication':
                 icon = <FaExclamationTriangle className="text-6xl text-red-600 mb-4"/>;
                 title = "HIGH ALERT: Potential TB Indication Detected";
-                message = `The AI model detected features consistent with possible TB (e.g., infiltrates, cavities) with a confidence level of ${resultConfidence ? (resultConfidence * 100).toFixed(0) : 0}%. **IMMEDIATE medical follow-up is mandatory.**`;
+                message = `The AI model detected features consistent with possible TB (e.g., infiltrates, cavities) with a confidence level of ${resultConfidence ? (resultConfidence * 100).toFixed(0) : 0}%. IMMEDIATE medical follow-up is mandatory.`;
                 color = "border-red-600 bg-red-50";
                 break;
             case 'Low Risk':
                 icon = <FaCheckCircle className="text-6xl text-green-600 mb-4"/>;
                 title = "Low AI Indication of TB";
-                message = `The AI model did not detect significant TB-related patterns with a confidence level of ${resultConfidence ? (resultConfidence * 100).toFixed(0) : 0}%. **However, this is not a diagnosis.** Clinical evaluation is still necessary, especially if symptoms persist.`;
+                message = `The AI model did not detect significant TB-related patterns with a confidence level of ${resultConfidence ? (resultConfidence * 100).toFixed(0) : 0}%. However, this is not a diagnosis. Clinical evaluation is still necessary, especially if symptoms persist.`;
                 color = "border-green-600 bg-green-50";
                 break;
             case 'Error':
@@ -132,8 +132,8 @@ export default function XRayAnalyzer() {
                     <div className="p-4 bg-yellow-100 border-l-4 border-yellow-500 text-yellow-800 mb-8 rounded-lg flex items-start">
                         <FaLightbulb className="text-xl mt-1 mr-3 flex-shrink-0" />
                         <div>
-                            <p className="font-bold">Future Feature (Mockup):</p>
-                            <p className="text-sm">This feature is planned for advanced development after MVP. It aims to assist healthcare workers in resource-limited settings by providing an AI-driven pre-screen result.</p>
+                            <p className="font-bold">Important Notice</p>
+                            <p className="text-sm">This feature aims to assist healthcare workers in resource-limited settings by providing an AI-driven pre-screen result.</p>
                         </div>
                     </div>
 

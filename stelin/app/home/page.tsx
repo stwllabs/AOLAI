@@ -25,7 +25,7 @@ const FEATURES = [
     },
     {
         icon: FaHospital,
-        title: "Health Guidance & Referral",
+        title: "Health Guidance & Referral Info",
         // Translation: Get health guidance and find the nearest health facility (Community Health Center/Hospital) for follow-up.
         description: "Get health guidance and find the nearest health facility (Community Health Center/Hospital) for follow-up.",
         link: "/referral",

@@ -28,7 +28,7 @@ interface RiskFactorState {
 
 interface RiskResult {
     category: 'Healthy' | 'Low' | 'Moderate' | 'High';
-    rekomendasi: string;
+    rekomendasi: React.ReactNode;
     color: string;
 }
 
@@ -133,19 +133,31 @@ export default function Chat() {
         } else if (riskScore <= 3) {
             risk = {
                 category: 'Low',
-                rekomendasi: 'Low TB risk detected based on current data. Monitor your health and seek advice if symptoms persist.',
+                rekomendasi: (
+                <>
+                    <strong>LOW TB Risk detected</strong> based on current data. Monitor your health and seek advice if symptoms persist.
+                </>
+                ),
                 color: 'bg-green-500 border-green-600',
             };
         } else if (riskScore <= 7) {
             risk = {
                 category: 'Moderate',
-                rekomendasi: 'Moderate risk. **Strongly recommended** to consult a doctor and consider further testing (e.g., Chest X-ray).',
+                rekomendasi: (
+                <>
+                    Moderate risk. <strong>Strongly recommended</strong> to consult a doctor and consider further testing (e.g., Chest X‑ray).
+                </>        
+                ),
                 color: 'bg-yellow-500 border-yellow-600',
             };
         } else {
             risk = {
                 category: 'High',
-                rekomendasi: 'Indication of **HIGH TB Risk**. **Must seek immediate check-up** at the nearest health facility for definitive diagnosis and treatment.',
+                rekomendasi: (
+                    <>
+                        Indication of <strong>HIGH TB Risk</strong>. <strong>Must seek immediate check-up</strong> at the nearest health facility for definitive diagnosis and treatment.
+                    </>
+                ),
                 color: 'bg-red-600 border-red-700',
             };
         }
@@ -297,7 +309,11 @@ export default function Chat() {
             {result && (
                 <div className={`p-6 rounded-xl border-4 ${result.color.replace('bg-', 'border-')} bg-white shadow-inner`}>
                     <p className="text-lg font-semibold text-center text-gray-700 mb-2">Your Risk Category:</p>
-                    <p className={`text-5xl font-extrabold text-center mt-1 mb-6 ${result.color.replace('bg-', 'text-').replace('500', '700').replace('600', '700')} drop-shadow-md`}>
+                    <p className={`text-5xl font-extrabold text-center mt-1 mb-6 ${
+                        result.category === 'Healthy' ? 'text-blue-900' :
+                        result.category === 'Low' ? 'text-green-800' :
+                        result.category === 'Moderate' ? 'text-yellow-800' : 'text-red-800'
+                    } drop-shadow-md uppercase`}>
                         {result.category}
                     </p>
 
