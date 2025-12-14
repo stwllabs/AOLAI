@@ -28,7 +28,7 @@ interface RiskFactorState {
 
 interface RiskResult {
     category: 'Healthy' | 'Low' | 'Moderate' | 'High';
-    rekomendasi: string;
+    rekomendasi: React.ReactNode;
     color: string;
 }
 
@@ -162,23 +162,40 @@ export default function Chat() {
                 keringat_malam: symptoms.nightSweats,
                 penurunan_berat_badan: symptoms.weightLoss,
             };
-            const data = await predictTbRisk(payload);
-            setResult({
-                category: data.result.kategori === "Low Risk" ? "Low" :
-                    data.result.kategori === "Medium Risk" ? "Moderate" : "High",
-                rekomendasi: data.result.rekomendasi_pemeriksaan_dokter
-                    ? "Consult a doctor for further examination."
-                    : "Monitor your symptoms and stay healthy.",
-                color: data.result.kategori === "High Risk"
-                    ? "bg-red-600 border-red-700"
-                    : data.result.kategori === "Medium Risk"
-                        ? "bg-yellow-500 border-yellow-600"
-                        : "bg-green-500 border-green-600",
-            });
-        } catch (err) {
-            console.error("Predict error", err);
-            alert("Failed to analyze. Please try again.");
-        } finally {
+        } else if (riskScore <= 3) {
+            risk = {
+                category: 'Low',
+                rekomendasi: (
+                <>
+                    <strong>LOW TB Risk detected</strong> based on current data. Monitor your health and seek advice if symptoms persist.
+                </>
+                ),
+                color: 'bg-green-500 border-green-600',
+            };
+        } else if (riskScore <= 7) {
+            risk = {
+                category: 'Moderate',
+                rekomendasi: (
+                <>
+                    Moderate risk. <strong>Strongly recommended</strong> to consult a doctor and consider further testing (e.g., Chest X‑ray).
+                </>        
+                ),
+                color: 'bg-yellow-500 border-yellow-600',
+            };
+        } else {
+            risk = {
+                category: 'High',
+                rekomendasi: (
+                    <>
+                        Indication of <strong>HIGH TB Risk</strong>. <strong>Must seek immediate check-up</strong> at the nearest health facility for definitive diagnosis and treatment.
+                    </>
+                ),
+                color: 'bg-red-600 border-red-700',
+            };
+        }
+
+        setTimeout(() => {
+            setResult(risk);
             setIsLoading(false);
         }
     };
@@ -188,7 +205,8 @@ export default function Chat() {
         const steps = [
             { id: 1, label: 'Basic Data', icon: FaUser },
             { id: 2, label: 'Core Symptoms', icon: FaStethoscope },
-            { id: 3, label: 'Result', icon: FaChartBar },
+            { id: 3, label: 'Risk Factors', icon: FaHistory },
+            { id: 4, label: 'Result', icon: FaChartBar },
         ];
 
         return (
@@ -302,11 +320,116 @@ export default function Chat() {
                     onClick={analyzeSymptoms}
                     className="w-1/2 py-3 flex items-center justify-center font-bold text-white bg-blue-600 rounded-lg shadow-lg hover:bg-blue-700 transform hover:scale-105 transition duration-300"
                 >
-                    Calculate Risk <FaChevronRight className="ml-2 w-4 h-4" />
+                    Calculate Risk Factors <FaChevronRight className="ml-2 w-4 h-4" />
                 </button>
             </div>
         </div>
     );
+
+    // --- RENDER FUNCTIONS: Step 3 (Risk Factors) ---
+const renderStepThree = () => (
+    <div className="bg-white p-8 rounded-xl shadow-xl border-2 border-gray-100 animate-fade-in">
+        <h2 className="text-2xl font-extrabold mb-6 text-blue-800 border-b pb-3">Step 3: Risk Factors</h2>
+        <p className="text-sm text-gray-700 mb-4">Please answer these additional risk-factor questions.</p>
+
+        <div className="space-y-6">
+            <div>
+                <p className="text-sm font-semibold mb-2">Have you been in close contact with someone diagnosed with TB?</p>
+                <div className="flex items-center space-x-6">
+                    <label className="inline-flex items-center space-x-2">
+                        <input
+                            type="radio"
+                            name="tbContact"
+                            value="yes"
+                            checked={riskFactors.tbContact === 'yes'}
+                            onChange={() => handleRiskFactorChange('tbContact', 'yes')}
+                            className="form-radio"
+                        />
+                        <span>Yes</span>
+                    </label>
+                    <label className="inline-flex items-center space-x-2">
+                        <input
+                            type="radio"
+                            name="tbContact"
+                            value="no"
+                            checked={riskFactors.tbContact === 'no'}
+                            onChange={() => handleRiskFactorChange('tbContact', 'no')}
+                            className="form-radio"
+                        />
+                        <span>No</span>
+                    </label>
+                </div>
+            </div>
+
+            <div>
+                <label className="block text-sm font-semibold mb-2">Health history (comorbidities)</label>
+                <select
+                    value={riskFactors.healthHistory}
+                    onChange={(e) => handleRiskFactorChange('healthHistory', e.target.value)}
+                    className="w-full p-3 border border-gray-300 rounded-lg text-gray-900"
+                >
+                    <option value="none">None</option>
+                    <option value="hiv">HIV</option>
+                    <option value="diabetes">Diabetes</option>
+                    <option value="other">Other</option>
+                </select>
+            </div>
+
+            <div>
+                <p className="text-sm font-semibold mb-2">Smoking status</p>
+                <div className="flex items-center space-x-6">
+                    <label className="inline-flex items-center space-x-2">
+                        <input
+                            type="radio"
+                            name="smokingStatus"
+                            value="no"
+                            checked={riskFactors.smokingStatus === 'no'}
+                            onChange={() => handleRiskFactorChange('smokingStatus', 'no')}
+                        />
+                        <span>No</span>
+                    </label>
+                    <label className="inline-flex items-center space-x-2">
+                        <input
+                            type="radio"
+                            name="smokingStatus"
+                            value="passive"
+                            checked={riskFactors.smokingStatus === 'passive'}
+                            onChange={() => handleRiskFactorChange('smokingStatus', 'passive')}
+                        />
+                        <span>Passive</span>
+                    </label>
+                    <label className="inline-flex items-center space-x-2">
+                        <input
+                            type="radio"
+                            name="smokingStatus"
+                            value="active"
+                            checked={riskFactors.smokingStatus === 'active'}
+                            onChange={() => handleRiskFactorChange('smokingStatus', 'active')}
+                        />
+                        <span>Active</span>
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <div className="flex justify-between mt-8 space-x-4">
+            <button
+                onClick={goToPrevStep}
+                className="w-1/2 py-3 font-bold text-gray-800 bg-gray-200 rounded-lg hover:bg-gray-300 transition"
+            >
+                &larr; Previous
+            </button>
+
+            <button
+                onClick={analyzeSymptoms}
+                className="w-1/2 py-3 flex items-center justify-center font-bold text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition"
+            >
+                {isLoading ? <FaSpinner className="animate-spin mr-2" /> : null}
+                Analyze &rarr;
+            </button>
+        </div>
+    </div>
+);
 
     // --- RENDER FUNCTIONS: Step 3 (Result) ---
     const renderStepThree = () => (
@@ -324,7 +447,11 @@ export default function Chat() {
             {!isLoading && result && (
                 <div className={`p-6 rounded-xl border-4 ${result.color.replace('bg-', 'border-')} bg-white shadow-inner`}>
                     <p className="text-lg font-semibold text-center text-gray-700 mb-2">Your Risk Category:</p>
-                    <p className={`text-5xl font-extrabold text-center mt-1 mb-6 ${result.color.replace('bg-', 'text-').replace('500', '700').replace('600', '700')} drop-shadow-md`}>
+                    <p className={`text-5xl font-extrabold text-center mt-1 mb-6 ${
+                        result.category === 'Healthy' ? 'text-blue-900' :
+                        result.category === 'Low' ? 'text-green-800' :
+                        result.category === 'Moderate' ? 'text-yellow-800' : 'text-red-800'
+                    } drop-shadow-md uppercase`}>
                         {result.category}
                     </p>
 
@@ -383,6 +510,7 @@ export default function Chat() {
                         {currentStep === 1 && renderStepOne()}
                         {currentStep === 2 && renderStepTwo()}
                         {currentStep === 3 && renderStepThree()}
+                        {currentStep === 4 && renderStepFour()}
                     </div>
 
                 </div>

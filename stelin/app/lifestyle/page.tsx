@@ -91,7 +91,7 @@ export default function TBEarlyReferralInfo() {
                             <div>
                                 <h3 className="text-lg font-semibold text-gray-900 flex items-center"><FaSyringe className="mr-2 text-red-500"/> Cause & Transmission</h3>
                                 <p className="text-base mt-1">
-                                    TB is caused by the bacterium **Mycobacterium tuberculosis**, primarily affecting the lungs. 
+                                    TB is caused by the bacterium <span className="font-bold italic">Mycobacterium tuberculosis</span>, primarily affecting the lungs.
                                     It spreads through the air when a person with active TB coughs, sneezes, or talks, releasing droplets containing the bacteria.
                                 </p>
                             </div>
@@ -100,10 +100,10 @@ export default function TBEarlyReferralInfo() {
                             <div>
                                 <h3 className="text-lg font-semibold text-gray-900 flex items-center"><FaShieldAlt className="mr-2 text-green-600"/> Prevention</h3>
                                 <ul className="list-disc list-inside ml-4 space-y-1 mt-1">
-                                    <li>Practicing proper **cough etiquette** (covering mouth and nose).</li>
-                                    <li>Ensuring **good ventilation** by opening windows.</li>
-                                    <li>Boosting immunity with **balanced nutrition** and exercise.</li>
-                                    <li>**BCG vaccination** for infants.</li>
+                                    <li>Practicing proper <span className="font-bold">cough etiquette</span> (covering mouth and nose).</li>
+                                    <li>Ensuring <span className="font-bold">good ventilation</span> by opening windows.</li>
+                                    <li>Boosting immunity with <span className="font-bold">balanced nutrition</span> and exercise.</li>
+                                    <li><span className="font-bold">BCG vaccination</span> for infants.</li>
                                 </ul>
                             </div>
 
@@ -111,7 +111,7 @@ export default function TBEarlyReferralInfo() {
                             <div>
                                 <h3 className="text-lg font-semibold text-gray-900 flex items-center"><FaHeartbeat className="mr-2 text-blue-500"/> Importance of Treatment</h3>
                                 <p className="text-base mt-1">
-                                    TB is **completely curable** if treatment is completed thoroughly. **Medication must be taken routinely for at least 6 months** without interruption 
+                                    TB is <span className="font-bold">completely curable</span> if treatment is completed thoroughly. Medication must be taken routinely for at least 6 months without interruption 
                                     to prevent the bacteria from developing drug resistance (MDR-TB), which is much harder and longer to treat.
                                 </p>
                             </div>
@@ -124,7 +124,7 @@ export default function TBEarlyReferralInfo() {
                             <FaSearchLocation className="mr-2"/> Nearest Health Facilities for Check-up
                         </h2>
                         <p className="text-gray-700 mb-6">
-                            If your screening result indicates a **MODERATE** or **HIGH** risk, you should immediately visit one of the nearest health facilities below for further examination (e.g., sputum test and/or Chest X-ray).
+                            If your screening result indicates a <span className="font-bold">MODERATE</span> or <span className="font-bold">HIGH</span> risk, you should immediately visit one of the nearest health facilities below for further examination (e.g., sputum test and/or Chest X-ray).
                         </p>
 
                         <div className="space-y-4">
