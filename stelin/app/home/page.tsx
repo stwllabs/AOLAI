@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import Navbar from "../_components/navbar";
-import { FaStethoscope, FaChartLine, FaMapMarkerAlt, FaHospital, FaMicroscope, FaArrowRight } from 'react-icons/fa';
+import { FaStethoscope, FaRobot, FaChartLine, FaMapMarkerAlt, FaHospital, FaMicroscope, FaArrowRight } from 'react-icons/fa';
 import Image from "next/image";
 
 // Data for Feature Cards
@@ -16,12 +16,11 @@ const FEATURES = [
         color: "text-blue-600",
     },
     {
-        icon: FaChartLine,
-        title: "X-Ray AI Pre-Analysis",
-        // Translation: Upload your chest X-ray photo for AI-based preliminary analysis. Detect potential early indications of TB.
-        description: "Upload your chest X-ray photo for AI-based preliminary analysis. Detect potential early indications of TB.",
-        link: "/xray",
-        color: "text-green-600",
+    icon: FaRobot,
+    title: "AI TB Chatbot",
+    description: "Interact with an AI-powered chatbot to understand TB symptoms, screening results, and get health guidance instantly.",
+    link: "/chatbot",
+    color: "text-green-600",
     },
     {
         icon: FaHospital,
