@@ -3,30 +3,58 @@ from flask_cors import CORS
 import pandas as pd
 import numpy as np
 import joblib
+from tensorflow.keras.models import load_model
+from tensorflow.keras.preprocessing.image import load_img, img_to_array
+import os
+from werkzeug.utils import secure_filename
 
 app = Flask(__name__)
 CORS(app)
 
-# Load model and scaler at startup
+# Configuration for file uploads
+UPLOAD_FOLDER = 'uploads'
+ALLOWED_EXTENSIONS = {'jpg', 'jpeg', 'png', 'gif'}
+MAX_FILE_SIZE = 10 * 1024 * 1024  # 10MB
+
+if not os.path.exists(UPLOAD_FOLDER):
+    os.makedirs(UPLOAD_FOLDER)
+
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+app.config['MAX_CONTENT_LENGTH'] = MAX_FILE_SIZE
+
+# Load models at startup
 try:
-    model = joblib.load('tb_risk_model.pkl')
+    tb_model = joblib.load('tb_risk_model.pkl')
     scaler = joblib.load('scaler.pkl')
-    print("✓ Model and scaler loaded successfully!")
+    print("✓ TB Risk model and scaler loaded successfully!")
 except Exception as e:
-    print(f"⚠ Error loading model: {e}")
-    print("Run the notebook first to generate tb_risk_model.pkl and scaler.pkl")
-    model = None
+    print(f"⚠ Error loading TB model: {e}")
+    tb_model = None
     scaler = None
 
+try:
+    brain_tumor_model = load_model('chest_xray_classification_model.h5')
+    print("✓ Brain Tumor model loaded successfully!")
+except Exception as e:
+    print(f"⚠ Error loading Brain Tumor model: {e}")
+    brain_tumor_model = None
+
+# Brain tumor classes
+XRAY_CLASSES = ['Normal', 'Pneumonia']
+
+def allowed_file(filename):
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
 @app.route('/predict', methods=['POST'])
-def predict():
-    if model is None:
-        return jsonify({'error': 'Model not loaded'}), 500
+def predict_tb_risk():
+    """Predict TB risk based on symptoms"""
+    if tb_model is None:
+        return jsonify({'error': 'TB Model not loaded'}), 500
     
     try:
         data = request.json
         
-        # Extract input dari request
+        # Extract input
         tinggi_badan_cm = data.get('tinggi_badan_cm')
         umur_tahun = data.get('umur_tahun')
         batuk_lama = data.get('batuk_lama')
@@ -40,25 +68,24 @@ def predict():
         
         # Prepare input data
         input_data = pd.DataFrame({
-            'tinggi_badan_cm': [float(tinggi_badan_cm)],
-            'umur_tahun': [float(umur_tahun)],
+            'tinggi_badan_cm': [(tinggi_badan_cm)],
+            'umur_tahun': [(umur_tahun)],
             'batuk_lama': [int(batuk_lama)],
             'demam': [int(demam)],
             'keringat_malam': [int(keringat_malam)],
             'penurunan_berat_badan': [int(penurunan_berat_badan)],
         })
         
-        # Predict - try with scaler first (for Linear Regression), fallback to direct prediction
+        # Predict
         try:
-            input_scaled = scaler.transform(input_data)
-            skor_risiko = model.predict(input_scaled)[0]
+            skor_risiko = tb_model.predict(input_data)[0]
         except:
-            skor_risiko = model.predict(input_data)[0]
+            skor_risiko = tb_model.predict(input_data)[0]
         
         # Clip to [0, 1] range
         skor_risiko = float(np.clip(skor_risiko, 0, 1))
         
-        # Kategorisasi risiko
+        # Categorize risk
         if skor_risiko < 0.4:
             kategori = 'Low Risk'
             rekomendasi = False
@@ -69,7 +96,7 @@ def predict():
             kategori = 'High Risk'
             rekomendasi = True
         
-        # Return hasil prediksi
+        # Return results
         return jsonify({
             'success': True,
             'input': {
@@ -93,35 +120,78 @@ def predict():
             'error': str(e)
         }), 400
 
+@app.route('/predict-brain-tumor', methods=['POST'])
+def predict_brain_tumor():
+    """Predict brain tumor from MRI image"""
+    if brain_tumor_model is None:
+        return jsonify({'error': 'Chest X-ray model not loaded'}), 500
+    
+    try:
+        # Check if image file is present
+        if 'image' not in request.files:
+            return jsonify({'error': 'No image file provided'}), 400
+        
+        file = request.files['image']
+        
+        if file.filename == '':
+            return jsonify({'error': 'No file selected'}), 400
+        
+        if not allowed_file(file.filename):
+            return jsonify({'error': 'Invalid file type. Allowed: jpg, jpeg, png, gif'}), 400
+        
+        # Save file
+        filename = secure_filename(file.filename)
+        filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+        file.save(filepath)
+        
+        # Load and preprocess image
+        img = load_img(filepath, target_size=(224, 224), color_mode='grayscale')
+        img_array = img_to_array(img) / 255.0  # Normalize
+        img_array = np.expand_dims(img_array, axis=0)  # Add batch dimension
+        
+        # Make prediction
+        predictions = brain_tumor_model.predict(img_array)
+        predicted_class_idx = np.argmax(predictions, axis=1)[0]
+        predicted_class = XRAY_CLASSES[predicted_class_idx]
+        confidence = float(predictions[0][predicted_class_idx]) * 100  # Convert to percentage
+        
+        # Clean up uploaded file
+        os.remove(filepath)
+        
+        return jsonify({
+            'success': True,
+            'prediction': predicted_class,
+            'confidence': round(confidence, 2),
+            'all_predictions': {
+                XRAY_CLASSES[i]: round(float(predictions[0][i]) * 100, 2)
+                for i in range(len(XRAY_CLASSES))
+            }
+        })
+    
+    except Exception as e:
+        return jsonify({
+            'success': False,
+            'error': str(e)
+        }), 400
+
 @app.route('/health', methods=['GET'])
 def health():
     return jsonify({
         'status': 'ok',
-        'model_loaded': model is not None,
-        'message': 'TB Risk Prediction API is running'
+        'tb_model_loaded': tb_model is not None,
+        'brain_tumor_model_loaded': brain_tumor_model is not None,
+        'message': 'Medical Diagnosis API is running'
     })
 
 if __name__ == '__main__':
     print("\n" + "="*60)
-    print("TB RISK PREDICTION API")
+    print("MEDICAL DIAGNOSIS API")
     print("="*60)
     print("Server running on: http://localhost:5000")
     print("\nEndpoints:")
     print("  POST /predict - Predict TB risk")
-    print("  GET  /health  - Check API status")
-    print("\nExample request:")
-    print("""
-    curl -X POST http://localhost:5000/predict \\
-      -H "Content-Type: application/json" \\
-      -d '{
-        "tinggi_badan_cm": 170,
-        "umur_tahun": 30,
-        "batuk_lama": true,
-        "demam": true,
-        "keringat_malam": false,
-        "penurunan_berat_badan": true
-      }'
-    """)
+    print("  POST /predict-brain-tumor - Predict brain tumor from MRI")
+    print("  GET  /health - Check API status")
     print("="*60 + "\n")
     
     app.run(host='0.0.0.0', port=5000, debug=True)

@@ -8,10 +8,15 @@ WORKDIR /app
 RUN apt-get update && apt-get install -y --no-install-recommends libgomp1 && rm -rf /var/lib/apt/lists/*
 
 COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install --upgrade pip setuptools wheel
+RUN pip install --no-cache-dir --prefer-binary -r requirements.txt
 
-COPY . .
+# Copy model files and application code
+COPY chest_xray_classification_model.h5 .
+COPY tb_risk_model.pkl .
+COPY scaler.pkl .
+COPY main.py .
 
 EXPOSE 5000
 
-CMD ["gunicorn", "--bind", "0.0.0.0:5000", "main:app"]
+CMD ["python", "main.py"]
