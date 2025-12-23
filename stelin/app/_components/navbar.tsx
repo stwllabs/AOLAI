@@ -9,7 +9,7 @@ const navItems = [
   { href: "/home", label: "Home", icon: FaHome },
   { href: "/chat", label: "AI Screening", icon: FaStethoscope },
   { href: "/lifestyle", label: "Guidance & Info", icon: MdHealthAndSafety },
-  { href: "/scan", label: "Xray Analysis", icon: FaBookMedical },
+  { href: "/chatbot", label: "AI Chatbot", icon: FaBookMedical },
 ];
 
 const Navbar = () => {
